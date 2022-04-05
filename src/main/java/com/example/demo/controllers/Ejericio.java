@@ -2,7 +2,13 @@ package com.example.demo.controllers;
 
 
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.text.MessageFormat;
+import java.util.Map;
+
+import javax.print.event.PrintEvent;
 
 import com.example.demo.utils.Utils;
 
@@ -40,10 +46,36 @@ public class Ejericio {
         return MessageFormat.format("La suma de {0} y {1} es {2}", params );
     }
 
+    //mediante mapas o diccionarios
     @PostMapping("/saveProduct")
-    public String saveProduct(){
+    public String saveProduct(@RequestParam Map<String,String> body){
+        String ArticleValue = body.get("article");
+        String priceValue = body.get("price");
         
+        //valido si no son elementos vacios
+        if(ArticleValue.equals("") || priceValue.equals("")){
+            return "Error,datos incorrectos";
+      
+        }
+        // precio negativo
+        if(Integer.valueOf(priceValue) < 0){
+            return "Precio negativo";
+        }
+    
+        //Guardamos en disco
+        try {
+            Utils.save("datos.txt", ArticleValue+ "," + priceValue + "\n");
+        } catch (Exception e) {
+            return "error al guardar disco";
+        }
+       // Devolver msg cliente
+       return "Producto guardado correctamente";
+       
     }
 
+        
+        
+ }
 
-}
+
+
