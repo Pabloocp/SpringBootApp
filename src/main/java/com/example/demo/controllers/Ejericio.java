@@ -1,14 +1,9 @@
 package com.example.demo.controllers;
 
 
-
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.text.MessageFormat;
 import java.util.Map;
 
-import javax.print.event.PrintEvent;
 
 import com.example.demo.utils.Utils;
 
