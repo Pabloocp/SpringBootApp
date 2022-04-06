@@ -1,5 +1,6 @@
 package com.example.demo.utils;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -24,5 +25,13 @@ public class Utils {
             if(pw!=null)  pw.close();
         }
     }
+
+    // Utilidad para borrar
+    public static boolean remove(String filename){
+        File f = new File(filename);
+        boolean result =  f.delete();
+        return result;
+    }
+
 
 }

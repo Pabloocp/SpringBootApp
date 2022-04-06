@@ -4,9 +4,12 @@ package com.example.demo.controllers;
 import java.text.MessageFormat;
 import java.util.Map;
 
-
+import com.example.demo.models.Person;
+import com.example.demo.services.RickAndMortyService;
 import com.example.demo.utils.Utils;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,6 +18,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class Ejericio {
+    @Autowired
+    RickAndMortyService rickAndMortyService;
+
+
     @GetMapping("/")
     public String greet(){
         return "Bienvenido al servidor backend";
@@ -68,7 +75,18 @@ public class Ejericio {
        
     }
 
-        
+    @DeleteMapping("/removeFile")
+    public String removeFile(){
+        boolean result = Utils.remove("datos.txt");
+        return result ? "borrado correcto" : "no se puede borrar";
+    }  
+    
+    @GetMapping("/RickandMorty/random")
+    public String getRyMortyRandCharacter(){
+        Person c = rickAndMortyService.getCharacterFromAPI();
+        //Devolvemos una etiqueta img con la ruta de la imagen
+        return MessageFormat.format("<img src = '{0}'/>", c.image);
+    }
         
  }
 
