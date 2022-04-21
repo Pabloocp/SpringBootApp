@@ -2,6 +2,7 @@ package com.example.demo.controllers;
 
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Map;
 
 import com.example.demo.models.Person;
@@ -85,8 +86,28 @@ public class Ejericio {
     public String getRyMortyRandCharacter(){
         Person c = rickAndMortyService.getCharacterFromAPI();
         //Devolvemos una etiqueta img con la ruta de la imagen
-        return MessageFormat.format("<img src = '{0}'/>", c.image);
+        return "<img src = '"+c.image+"'/>" ;
+      
     }
+
+    //http://localhost:8080/rickandmorty/list
+    @GetMapping("/rickandmorty/list")
+    public String getRickAndMortyRandomList(){
+        String web = "<h1>Lista de personas</h1>";
+        ArrayList<Person> persons = rickAndMortyService.getCharactersFromAPI();
+        for(Person person : persons){
+            web+="<img src='"+person.image+"'/>";
+        }
+        return web;
+    }
+
+    @GetMapping("/chiste")
+    public String addChiste(@RequestParam String text){
+      
+        return "";
+    }
+
+
         
  }
 
