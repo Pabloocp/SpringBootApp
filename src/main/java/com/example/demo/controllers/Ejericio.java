@@ -5,7 +5,9 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Map;
 
+import com.example.demo.models.Chiste;
 import com.example.demo.models.Person;
+import com.example.demo.services.ChistesService;
 import com.example.demo.services.RickAndMortyService;
 import com.example.demo.utils.Utils;
 
@@ -22,6 +24,8 @@ public class Ejericio {
     @Autowired
     RickAndMortyService rickAndMortyService;
 
+    @Autowired
+    ChistesService chistesService;
 
     @GetMapping("/")
     public String greet(){
@@ -101,14 +105,32 @@ public class Ejericio {
         return web;
     }
 
-    @GetMapping("/chiste")
-    public String addChiste(@RequestParam String text){
-      
-        return "";
+  
+    //http://localhost:8080/listarChiste
+    @GetMapping("/listarChiste")
+    public String jokeList(){
+        ArrayList<Chiste> jokes = chistesService.getAllChistes();
+        String listado = "";
+        for(Chiste joke: jokes){
+            listado += joke.getText();
+            
+            listado += "<br/>";
+        }
+        return listado;
+
     }
 
 
-        
+    @PostMapping("/insertarchiste")
+   public String addJoke(@RequestParam Map<String, String> body){
+        String jokeText =  body.get("text");
+        jokeText.replaceAll("<", "");
+        jokeText.replaceAll(">", "");
+        Chiste joke = new Chiste();
+        joke.setText(jokeText);
+        chistesService.saveChiste(joke);
+        return "Chiste creado correctamente";
+   }
  }
 
 
